@@ -3,6 +3,7 @@ import config from "./config/config";
 import connectDb from './db/mongoose';
 import { createServer } from "node:http";
 
+// Connection to MongoDB
 (async () => {
   await connectDb()
 })()

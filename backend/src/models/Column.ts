@@ -14,6 +14,6 @@ const columnSchema = new Schema({
 });
 
 
-const Column = mongoose.model("Board", columnSchema);
+const Column = mongoose.model("Column", columnSchema);
 
 export default Column;
