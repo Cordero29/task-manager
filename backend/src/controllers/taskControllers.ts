@@ -17,7 +17,11 @@ export const getOneTask = async (req: Request, res: Response) => {
 	}
 	try {
 		const task = await Task.findById(_id);
-		res.send(task);
+		if (!task) {
+			res.status(404).send("Task does not exist");
+		} else {
+			res.send(task);
+		}
 	} catch (e) {
 		res.status(500).send(e);
 	}
@@ -45,6 +49,7 @@ export const updateTaskColumn = async (req: Request, res: Response) => {
 
 	try {
 		const task = await Task.updateOne({_id: _id}, {$set: {columnId: columnId}});
+
 		if (task.acknowledged) {
 			res.status(200).send(task.acknowledged);
 		} else {
@@ -63,11 +68,12 @@ export const updateTaskTitle = async (req: Request, res: Response) => {
 
 	try {
 		const task = await Task.updateOne({_id: _id}, {$set: {title: title}})
-		if (task.acknowledged) {
-			res.status(200).send(task.acknowledged);
-		} else {
-			res.status(500).send("Task wasn't able to be completed");
+
+		if (!task.modifiedCount) {
+			res.status(404).send("Task _id does not exist")
 		}
+
+		res.status(200).send(task.acknowledged);
 	} catch (e) {
 		res.status(500).send(e);
 	}
@@ -80,12 +86,14 @@ export const updateTaskPriority = async (req: Request, res: Response) => {
 	}
 
 	try {
-		const updatedTask = await Task.updateOne({_id: _id}, {$set: {priority: priority}})
-		if (updatedTask.acknowledged) {
-			res.status(200).send(updatedTask.acknowledged);
-		} else {
-			res.status(500).send("Task wasn't able to be completed");
+		const task = await Task.updateOne({_id: _id}, {$set: {priority: priority}})
+
+		if (!task.modifiedCount) {
+			res.status(404).send("Task _id does not exist")
 		}
+
+		res.status(500).send("Task wasn't able to be completed");
+
 	} catch (e) {
 		res.status(500).send(e);
 	}
@@ -98,12 +106,14 @@ export const deleteTask = async (req: Request, res: Response) => {
 	}
 
 	try {
-		const deletedTask = await Task.deleteOne({_id: _id});
-		if (deletedTask.acknowledged) {
-			res.status(200).send(deletedTask.acknowledged);
-		} else {
-			res.status(500).send("Task wasn't able to be completed");
+		const task = await Task.deleteOne({_id: _id});
+
+		if (!task.deletedCount) {
+			res.status(404).send("Task _id does not exist");
 		}
+
+		res.status(200).send(task.acknowledged);
+
 	} catch (e) {
 		res.status(500).send(e);
 	}

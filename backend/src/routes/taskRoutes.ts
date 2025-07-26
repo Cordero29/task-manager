@@ -17,7 +17,7 @@ router.get("/get-one", getOneTask);
 
 router.post('/create', createTask);
 
-router.patch("/update-column-placement", updateTaskColumn);
+router.patch("/update-task-placement", updateTaskColumn);
 
 router.patch('/update-title', updateTaskTitle);
 
