@@ -3,7 +3,7 @@ import mongoose, {Schema} from "mongoose";
 
 const userSchema = new Schema({
 	auth0Id: {type: String, required: true, unique: true},
-	email: {type: String, required: false, default: null, sparse: true, unique: true},
+	email: {type: String, required: false},
 	username: {type: String, required: true, unique: true},
 	isAdmin: {type: Boolean, default: false},
 }, {
