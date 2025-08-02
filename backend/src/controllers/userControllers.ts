@@ -1,4 +1,4 @@
-import {Request, Response} from 'express';
+import {Response} from 'express';
 import AuthenticatedRequest from "../types/AuthenticatedRequest";
 import dotenv from "dotenv";
 import User from "../models/User";
@@ -8,18 +8,28 @@ dotenv.config();
 const ISSUER = process.env.ISSUER;
 const AUTH0MANAGEMENTAPI = process.env.AUTH0MANAGEMENTAPI;
 
-export const addUserToDB = (req: AuthenticatedRequest, res: Response) => {
+export const addUserToDB = async (req: AuthenticatedRequest, res: Response) => {
+	const {email, username, auth0Id} = req.body;
 
+	if (!auth0Id) return res.status(401).send("No Auth0 ID");
 
-	console.log("Add User Request Body: ", req.body)
+	try {
+		let user = await User.findOne({auth0Id});
 
-	res.status(200).send("OK");
+		if (!user) {
+			user = await User.create({auth0Id, email, username});
+			console.log("✅ New user created:", user);
+			res.sendStatus(201);
+		}
+	} catch (e) {
+		console.error(e);
+	}
 }
 
 export const deleteUser = async (req: AuthenticatedRequest, res: Response) => {
 	const auth0Id = req.user?.auth0Id;
-	console.log("AUTH0 ID", auth0Id);
 	const token = AUTH0MANAGEMENTAPI as string;
+
 	try {
 		const response = await fetch(`${ISSUER}api/v2/users/${auth0Id}`, {
 			method: "DELETE",
