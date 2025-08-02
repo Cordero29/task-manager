@@ -8,9 +8,10 @@ dotenv.config();
 const ISSUER = process.env.ISSUER;
 const AUTH0MANAGEMENTAPI = process.env.AUTH0MANAGEMENTAPI;
 
+// This route is only use in Auth0 when user is created, hits this endpoint in Custom Actions to add User to MongoDB.
 export const addUserToDB = async (req: AuthenticatedRequest, res: Response) => {
 	const {email, username, auth0Id} = req.body;
-	
+
 	if (!auth0Id) return res.status(401).send("No Auth0 ID");
 
 	try {
@@ -41,11 +42,9 @@ export const deleteUser = async (req: AuthenticatedRequest, res: Response) => {
 			}
 		})
 		if (response.status === 204) {
-			console.log("DELETE RESPONSE",)
-
 			const user = await User.deleteOne({auth0Id});
 			if (user.acknowledged) {
-				res.status(200).send(user.acknowledged);
+				res.status(201).send(user.acknowledged);
 			} else {
 				res.status(500).send("Task wasn't able to be completed");
 			}
