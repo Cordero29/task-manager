@@ -5,12 +5,14 @@ import {
 	updateBoardTitle,
 	deleteBoard,
 } from "../controllers/boardControllers";
+import checkJwt from "../middleware/auth/checkJwt";
+import ensureUser from "../middleware/auth/ensureUser";
 
 const router = express.Router();
 
 router.get("/get-all", getAllBoards);
 
-router.post("/create", createBoard);
+router.post("/create", checkJwt, ensureUser, createBoard);
 
 router.patch("/update-title", updateBoardTitle);
 

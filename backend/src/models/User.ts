@@ -2,8 +2,10 @@ import mongoose, {Schema} from "mongoose";
 
 
 const userSchema = new Schema({
-	username: {type: String, required: true},
-	password: {type: String, required: true}
+	auth0Id: {type: String, required: true, unique: true},
+	email: {type: String, required: false, default: null, sparse: true, unique: true},
+	username: {type: String, required: true, unique: true},
+	isAdmin: {type: Boolean, default: false},
 }, {
 	collection: 'users',
 	timestamps: true
