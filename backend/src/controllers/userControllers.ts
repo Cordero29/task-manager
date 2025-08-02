@@ -44,7 +44,7 @@ export const deleteUser = async (req: AuthenticatedRequest, res: Response) => {
 		if (response.status === 204) {
 			const user = await User.deleteOne({auth0Id});
 			if (user.acknowledged) {
-				res.status(200).send(user.acknowledged);
+				res.status(201).send(user.acknowledged);
 			} else {
 				res.status(500).send("Task wasn't able to be completed");
 			}
