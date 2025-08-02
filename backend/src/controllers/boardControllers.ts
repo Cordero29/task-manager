@@ -1,5 +1,7 @@
 import {Request, Response} from 'express';
+import AuthenticatedRequest from "../types/AuthenticatedRequest";
 import Board from "../models/Board";
+import User from "../models/User";
 
 export const getAllBoards = async (req: Request, res: Response) => {
 	try {
@@ -10,14 +12,17 @@ export const getAllBoards = async (req: Request, res: Response) => {
 	}
 }
 
-export const createBoard = async (req: Request, res: Response) => {
+export const createBoard = async (req: AuthenticatedRequest, res: Response) => {
 	const {title} = req.body;
+	const auth0Id = req.user?.auth0Id;
+
+
 	if (!title) {
 		res.status(400).send("Please provide a title");
 	}
 
 	try {
-		const board = new Board({title});
+		const board = new Board({title, auth0Id});
 		await board.save();
 		res.send(board);
 	} catch (e) {
