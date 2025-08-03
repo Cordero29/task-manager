@@ -1,0 +1,25 @@
+# IDE settings
+.idea/
+
+# Env files
+*.env
+*.env.*
+
+# OS files
+.DS_Store
+
+# Frontend
+frontend/node_modules
+frontend/.idea
+frontend/.gitignore
+frontend/.env.development
+frontend/.env.production
+
+
+# Backend
+backend/node_modules
+backend/.idea
+backend/.gitignore
+backend/.env
+
+
