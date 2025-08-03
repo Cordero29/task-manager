@@ -33,6 +33,7 @@ export const addUserToDB = async (req: AuthenticatedRequest, res: Response) => {
 export const deleteUser = async (req: AuthenticatedRequest, res: Response) => {
 	const auth0Id = req.user?.auth0Id;
 	const token = AUTH0MANAGEMENTAPI as string;
+	
 
 	try {
 		const response = await fetch(`${ISSUER}api/v2/users/${auth0Id}`, {
