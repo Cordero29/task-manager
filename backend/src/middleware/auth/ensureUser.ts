@@ -29,13 +29,15 @@ const ensureUser = async (req: AuthenticatedRequest, res: Response, next: NextFu
 		// Create on first hit (auto onboarding)
 		if (!user) {
 			user = await User.create({auth0Id: sub, email, username});
-			console.log("✅ New user created:", username);
+			console.log("✅ New user created:", user);
 		}
+
 		req.user = user;
 		next();
 
 	} catch (e) {
 		console.error(e);
+		res.status(500).send(e);
 	}
 };
 

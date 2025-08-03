@@ -5,7 +5,6 @@ import ensureUser from "../middleware/auth/ensureUser";
 
 const router = express.Router();
 
-// router.post('/add', checkJwt, ensureUser, addUserToDB);
 router.post('/add', addUserToDB);
 router.delete('/delete', checkJwt, ensureUser, deleteUser);
 

@@ -3,7 +3,7 @@ import Login from "./components/Auth/Login.tsx";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Profile from "./components/Auth/Profile.tsx";
 import Home from "./components/Home.tsx";
-import ProtectedRoute from "./components/Auth/ProtectedRoute.tsx";
+import ProtectedRoute from "./helpers/auth/ProtectedRoute.tsx";
 
 function App() {
 	const router = createBrowserRouter([
